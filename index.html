@@ -10,14 +10,23 @@
   <h2>Suspeitos</h2>
   <ul id="lista-suspeitos"></ul>
 
+  <h2>Testemunhas</h2>
+  <ul id="lista-testemunhas"></ul>
+
   <script src="caso.js"></script>
   <script>
-    const lista = document.getElementById("lista-suspeitos");
-
+    const listaSuspeitos = document.getElementById("lista-suspeitos");
     for (const suspeito of suspeitos) {
       const item = document.createElement("li");
       item.textContent = suspeito.nome + " — " + suspeito.motivo;
-      lista.appendChild(item);
+      listaSuspeitos.appendChild(item);
+    }
+
+    const listaTestemunhas = document.getElementById("lista-testemunhas");
+    for (const testemunha of testemunhas) {
+      const item = document.createElement("li");
+      item.textContent = testemunha.nome + " — " + testemunha.relato;
+      listaTestemunhas.appendChild(item);
     }
   </script>
 </body>
