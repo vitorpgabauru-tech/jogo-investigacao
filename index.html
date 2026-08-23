@@ -34,10 +34,31 @@
       "<p><strong>Data:</strong> " + briefing.data + "</p>" +
       "<p>" + briefing.texto + "</p>";
 
+    const opcoesStatus = ["Não decidido", "Suspeito", "Não suspeito"];
+
     const listaSuspeitos = document.getElementById("lista-suspeitos");
     for (const suspeito of suspeitos) {
+      suspeito.status = "Não decidido";
+
       const item = document.createElement("li");
-      item.textContent = suspeito.nome + " — " + suspeito.motivo;
+
+      const texto = document.createElement("span");
+      texto.textContent = suspeito.nome + " — " + suspeito.motivo + "  ";
+      item.appendChild(texto);
+
+      const select = document.createElement("select");
+      for (const opcao of opcoesStatus) {
+        const option = document.createElement("option");
+        option.value = opcao;
+        option.textContent = opcao;
+        select.appendChild(option);
+      }
+
+      select.onchange = function () {
+        suspeito.status = select.value;
+      };
+
+      item.appendChild(select);
       listaSuspeitos.appendChild(item);
     }
 
