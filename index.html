@@ -1,11 +1,33 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Arquivo do Caso</title>
 </head>
 <body>
-  <h1>Caso 1968-01</h1>
-  <p>Se você está vendo isso no navegador, funcionou! 🎉</p>
+  <h1>Caso 1968-01 — Operação Falcão</h1>
+
+  <h2>Suspeitos</h2>
+  <ul id="lista-suspeitos"></ul>
+
+  <script>
+    const suspeitos = [
+      "Ricardo Meireles",
+      "Beatriz Meireles",
+      "Coronel Vasconcelos",
+      "Délcio Ramos",
+      "Setembrina Alves",
+      "Otávio Lacerda",
+      "Agente Milton Cardoso"
+    ];
+
+    const lista = document.getElementById("lista-suspeitos");
+
+    for (const nome of suspeitos) {
+      const item = document.createElement("li");
+      item.textContent = nome;
+      lista.appendChild(item);
+    }
+  </script>
 </body>
 </html>
