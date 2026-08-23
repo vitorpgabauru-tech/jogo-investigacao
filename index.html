@@ -18,6 +18,11 @@
   <button onclick="investigar()">Investigar</button>
   <ul id="lista-evidencias"></ul>
 
+  <h2>Sua hipótese</h2>
+  <select id="select-acusado"></select>
+  <button onclick="acusar()">Confirmar Acusação</button>
+  <p id="resultado-acusacao"></p>
+
   <script src="caso.js"></script>
   <script>
     const listaSuspeitos = document.getElementById("lista-suspeitos");
@@ -63,6 +68,19 @@
         }
       }
       renderizarEvidencias();
+    }
+
+    const selectAcusado = document.getElementById("select-acusado");
+    for (const suspeito of suspeitos) {
+      const opcao = document.createElement("option");
+      opcao.value = suspeito.nome;
+      opcao.textContent = suspeito.nome;
+      selectAcusado.appendChild(opcao);
+    }
+
+    function acusar() {
+      const nomeEscolhido = document.getElementById("select-acusado").value;
+      document.getElementById("resultado-acusacao").textContent = "Você acusa: " + nomeEscolhido;
     }
 
     renderizarEvidencias();
