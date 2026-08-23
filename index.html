@@ -12,20 +12,20 @@
 
   <script>
     const suspeitos = [
-      "Ricardo Meireles",
-      "Beatriz Meireles",
-      "Coronel Vasconcelos",
-      "Délcio Ramos",
-      "Setembrina Alves",
-      "Otávio Lacerda",
-      "Agente Milton Cardoso"
+      { nome: "Ricardo Meireles", motivo: "Financeiro — a reportagem o incriminaria" },
+      { nome: "Beatriz Meireles", motivo: "Encobrir o caso extraconjugal, medo do marido" },
+      { nome: "Coronel Vasconcelos", motivo: "Político — citado na reportagem sobre contratos militares" },
+      { nome: "Délcio Ramos", motivo: "Tinha chave do apartamento; ligado a grupo vigiado" },
+      { nome: "Setembrina Alves", motivo: "Temia que a matéria fechasse o jornal" },
+      { nome: "Otávio Lacerda", motivo: "Disputa antiga por herança da mãe" },
+      { nome: "Agente Milton Cardoso", motivo: "Vigilância política — encobrimento, não crime" }
     ];
 
     const lista = document.getElementById("lista-suspeitos");
 
-    for (const nome of suspeitos) {
+    for (const suspeito of suspeitos) {
       const item = document.createElement("li");
-      item.textContent = nome;
+      item.textContent = suspeito.nome + " — " + suspeito.motivo;
       lista.appendChild(item);
     }
   </script>
