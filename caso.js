@@ -9,12 +9,12 @@
 ];
 
 const testemunhas = [
-  { nome: "Dona Alzira", relato: "Ouviu \"um tiro\" por volta das 22h15" },
-  { nome: "Porteiro Jonas", relato: "Viu Ricardo entrar às 20h45 e sair apressado perto de 23h20" },
-  { nome: "Garçom do Bar Vesúvio", relato: "Confunde o dia do almoço entre Henrique e Délcio" },
-  { nome: "Aurélio (colega de redação)", relato: "Ouviu Henrique dizer que \"tem gente demais interessada\" no que escrevia" },
-  { nome: "Zilda (empregada doméstica)", relato: "Encontrou o corpo; notou que uma pasta de documentos havia sumido" },
-  { nome: "Informante anônimo", relato: "Bilhete alegando ter visto um carro oficial parado na rua" }
+  { nome: "Dona Alzira", papel: "vizinha", relato: "Eu estava na janela, quase dormindo, quando ouvi um estampido lá pelas dez e quinze da noite. Parecia um tiro, tenho certeza. Não vi ninguém, só ouvi." },
+  { nome: "Porteiro Jonas", papel: "porteiro do prédio", relato: "O senhor Ricardo chegou por volta das oito e quarenta e cinco. Perto das onze e vinte vi um homem apressado saindo pela portaria — não vi o rosto direito, mas a estatura parecia a dele." },
+  { nome: "Garçom do Bar Vesúvio", papel: "garçom", relato: "O senhor Henrique almoçava aqui quase toda semana com um rapaz mais novo, parecia estudante. Foi uns dois ou três dias antes do que aconteceu — não tenho certeza do dia exato." },
+  { nome: "Aurélio", papel: "colega de redação", relato: "O Henrique andava tenso nos últimos dias. Pouco antes de tudo, ele me disse, meio de brincadeira, que 'tem gente demais interessada' no que ele andava escrevendo. Não dei importância na hora." },
+  { nome: "Zilda", papel: "empregada doméstica", relato: "Fui eu que encontrei o corpo, de manhã, quando vim fazer a limpeza. Reparei que a pasta de couro que ele sempre deixava sobre a escrivaninha não estava lá. Ele nunca saía sem trancar aquela pasta." },
+  { nome: "Informante anônimo", papel: "bilhete entregue à delegacia", relato: "Vi um carro parado na rua na noite em que aquele homem morreu. Achei estranho — carro de gente do governo, dava pra perceber pela placa." }
 ];
 
 const evidencias = [
@@ -36,4 +36,12 @@ const evidencias = [
 
 const verdade = {
   culpado: "Ricardo Meireles"
+};
+
+const briefing = {
+  titulo: "O Silêncio da Rua Almirante",
+  vitima: "Henrique Lacerda, 34 anos, jornalista",
+  local: "Rua Almirante Alexandrino, 118, apto 302, Santa Teresa, Rio de Janeiro",
+  data: "Corpo encontrado em 15 de outubro de 1968; morte estimada na noite anterior",
+  texto: "Rio de Janeiro, outubro de 1968. A cidade vive sob censura crescente e vigilância constante — poucos meses depois da Passeata dos Cem Mil, poucas semanas antes do que ninguém ainda sabe que está por vir. Nesse clima, chega a notícia: Henrique Lacerda, jornalista conhecido por reportagens incômodas, foi encontrado morto em seu apartamento em Santa Teresa. Não há arma na cena. Não há testemunha que tenha visto tudo — só fragmentos: um relógio parado, uma discussão ouvida ao longe, uma pasta que desapareceu. Cabe a você, investigador designado para o caso, reconstruir o que aconteceu na noite de 14 de outubro — e decidir, ao final, em quem apontar o dedo."
 };

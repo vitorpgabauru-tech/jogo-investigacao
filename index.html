@@ -7,6 +7,8 @@
 <body>
   <h1>Caso 1968-01 — Operação Falcão</h1>
 
+  <div id="briefing"></div>
+
   <h2>Suspeitos</h2>
   <ul id="lista-suspeitos"></ul>
 
@@ -25,6 +27,13 @@
 
   <script src="caso.js"></script>
   <script>
+    const briefingDiv = document.getElementById("briefing");
+    briefingDiv.innerHTML = "<h2>" + briefing.titulo + "</h2>" +
+      "<p><strong>Vítima:</strong> " + briefing.vitima + "</p>" +
+      "<p><strong>Local:</strong> " + briefing.local + "</p>" +
+      "<p><strong>Data:</strong> " + briefing.data + "</p>" +
+      "<p>" + briefing.texto + "</p>";
+
     const listaSuspeitos = document.getElementById("lista-suspeitos");
     for (const suspeito of suspeitos) {
       const item = document.createElement("li");
@@ -35,7 +44,7 @@
     const listaTestemunhas = document.getElementById("lista-testemunhas");
     for (const testemunha of testemunhas) {
       const item = document.createElement("li");
-      item.textContent = testemunha.nome + " — " + testemunha.relato;
+      item.textContent = testemunha.nome + " (" + testemunha.papel + ") — " + testemunha.relato;
       listaTestemunhas.appendChild(item);
     }
 
