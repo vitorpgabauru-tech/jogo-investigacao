@@ -80,7 +80,15 @@
 
     function acusar() {
       const nomeEscolhido = document.getElementById("select-acusado").value;
-      document.getElementById("resultado-acusacao").textContent = "Você acusa: " + nomeEscolhido;
+      const resultadoDiv = document.getElementById("resultado-acusacao");
+
+      if (nomeEscolhido === verdade.culpado) {
+        resultadoDiv.textContent = "FINAL B — PARCIAL: Você identificou Ricardo Meireles como o assassino de Henrique Lacerda. A motivação era pessoal — um caso extraconjugal e um desvio de dinheiro — não política. Mas o encobrimento feito pela Operação Falcão nunca foi provado.";
+      } else if (nomeEscolhido === "Délcio Ramos") {
+        resultadoDiv.textContent = "FINAL D — ERRO: Você acusou Délcio Ramos, um estudante que apenas passou pelo apartamento para buscar panfletos. O verdadeiro assassino permanece livre.";
+      } else {
+        resultadoDiv.textContent = "FINAL G — SEM SOLUÇÃO: as evidências reunidas não sustentam essa acusação. O caso permanece oficialmente sem solução.";
+      }
     }
 
     renderizarEvidencias();

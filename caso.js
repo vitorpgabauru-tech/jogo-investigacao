@@ -33,3 +33,7 @@ const evidencias = [
   { tipo: "Circunstancial", descricao: "Bilhete do informante sobre carro oficial", forca: "Abre linha de investigação sobre a Falcão", descoberta: false },
   { tipo: "Ausência", descricao: "Pasta de vigilância desaparecida, relatada por Zilda", forca: "Nunca aparece no relatório oficial", descoberta: false }
 ];
+
+const verdade = {
+  culpado: "Ricardo Meireles"
+};
