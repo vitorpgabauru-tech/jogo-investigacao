@@ -14,6 +14,8 @@
   <ul id="lista-testemunhas"></ul>
 
   <h2>Evidências</h2>
+  <p id="contador"></p>
+  <button onclick="investigar()">Investigar</button>
   <ul id="lista-evidencias"></ul>
 
   <script src="caso.js"></script>
@@ -32,12 +34,38 @@
       listaTestemunhas.appendChild(item);
     }
 
-    const listaEvidencias = document.getElementById("lista-evidencias");
-    for (const evidencia of evidencias) {
-      const item = document.createElement("li");
-      item.textContent = "[" + evidencia.tipo + "] " + evidencia.descricao + " — " + evidencia.forca;
-      listaEvidencias.appendChild(item);
+    function renderizarEvidencias() {
+      const listaEvidencias = document.getElementById("lista-evidencias");
+      listaEvidencias.innerHTML = "";
+
+      for (const evidencia of evidencias) {
+        if (evidencia.descoberta) {
+          const item = document.createElement("li");
+          item.textContent = "[" + evidencia.tipo + "] " + evidencia.descricao + " — " + evidencia.forca;
+          listaEvidencias.appendChild(item);
+        }
+      }
+
+      let descobertas = 0;
+      for (const evidencia of evidencias) {
+        if (evidencia.descoberta) {
+          descobertas = descobertas + 1;
+        }
+      }
+      document.getElementById("contador").textContent = descobertas + " de " + evidencias.length + " evidências descobertas";
     }
+
+    function investigar() {
+      for (const evidencia of evidencias) {
+        if (!evidencia.descoberta) {
+          evidencia.descoberta = true;
+          break;
+        }
+      }
+      renderizarEvidencias();
+    }
+
+    renderizarEvidencias();
   </script>
 </body>
 </html>
