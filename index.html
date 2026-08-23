@@ -13,6 +13,9 @@
   <h2>Testemunhas</h2>
   <ul id="lista-testemunhas"></ul>
 
+  <h2>Evidências</h2>
+  <ul id="lista-evidencias"></ul>
+
   <script src="caso.js"></script>
   <script>
     const listaSuspeitos = document.getElementById("lista-suspeitos");
@@ -27,6 +30,13 @@
       const item = document.createElement("li");
       item.textContent = testemunha.nome + " — " + testemunha.relato;
       listaTestemunhas.appendChild(item);
+    }
+
+    const listaEvidencias = document.getElementById("lista-evidencias");
+    for (const evidencia of evidencias) {
+      const item = document.createElement("li");
+      item.textContent = "[" + evidencia.tipo + "] " + evidencia.descricao + " — " + evidencia.forca;
+      listaEvidencias.appendChild(item);
     }
   </script>
 </body>
