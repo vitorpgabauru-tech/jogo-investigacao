@@ -5,26 +5,35 @@
   <title>Arquivo do Caso</title>
 </head>
 <body>
-  <h1>Caso 1968-01 — Operação Falcão</h1>
 
-  <div id="briefing"></div>
+  <div id="tela-abertura">
+    <h1>Caso 1968-01 — Operação Falcão</h1>
+    <div id="briefing"></div>
+    <button onclick="iniciarInvestigacao()">Começar investigação</button>
+  </div>
 
-  <h2>Suspeitos</h2>
-  <ul id="lista-suspeitos"></ul>
+  <div id="tela-investigacao" style="display: none;">
+    <h2>Suspeitos</h2>
+    <ul id="lista-suspeitos"></ul>
 
-  <h2>Investigação</h2>
-  <p id="contador"></p>
+    <h2>Investigação</h2>
+    <p id="contador"></p>
 
-  <h3>Pistas disponíveis</h3>
-  <ul id="lista-disponiveis"></ul>
+    <h3>Pistas disponíveis</h3>
+    <ul id="lista-disponiveis"></ul>
 
-  <h3>Pistas descobertas</h3>
-  <ul id="lista-descobertas"></ul>
+    <h3>Pistas descobertas</h3>
+    <ul id="lista-descobertas"></ul>
 
-  <h2>Sua hipótese</h2>
-  <select id="select-acusado"></select>
-  <button onclick="acusar()">Confirmar Acusação</button>
-  <p id="resultado-acusacao"></p>
+    <h2>Sua hipótese</h2>
+    <select id="select-acusado"></select>
+    <button onclick="acusar()">Confirmar Acusação</button>
+  </div>
+
+  <div id="tela-resultado" style="display: none;">
+    <h2>Resultado</h2>
+    <p id="resultado-final"></p>
+  </div>
 
   <script src="caso.js"></script>
   <script>
@@ -34,6 +43,11 @@
       "<p><strong>Local:</strong> " + briefing.local + "</p>" +
       "<p><strong>Data:</strong> " + briefing.data + "</p>" +
       "<p>" + briefing.texto + "</p>";
+
+    function iniciarInvestigacao() {
+      document.getElementById("tela-abertura").style.display = "none";
+      document.getElementById("tela-investigacao").style.display = "block";
+    }
 
     const opcoesStatus = ["Não decidido", "Suspeito", "Não suspeito"];
 
@@ -201,15 +215,19 @@
 
     function acusar() {
       const nomeEscolhido = document.getElementById("select-acusado").value;
-      const resultadoDiv = document.getElementById("resultado-acusacao");
+      let texto;
 
       if (nomeEscolhido === verdade.culpado) {
-        resultadoDiv.textContent = "FINAL B — PARCIAL: Você identificou Ricardo Meireles como o assassino de Henrique Lacerda. A motivação era pessoal — um caso extraconjugal e um desvio de dinheiro — não política. Mas o encobrimento feito pela Operação Falcão nunca foi provado.";
+        texto = "FINAL B — PARCIAL: Você identificou Ricardo Meireles como o assassino de Henrique Lacerda. A motivação era pessoal — um caso extraconjugal e um desvio de dinheiro — não política. Mas o encobrimento feito pela Operação Falcão nunca foi provado.";
       } else if (nomeEscolhido === "Délcio Ramos") {
-        resultadoDiv.textContent = "FINAL D — ERRO: Você acusou Délcio Ramos, um estudante que apenas passou pelo apartamento para buscar panfletos. O verdadeiro assassino permanece livre.";
+        texto = "FINAL D — ERRO: Você acusou Délcio Ramos, um estudante que apenas passou pelo apartamento para buscar panfletos. O verdadeiro assassino permanece livre.";
       } else {
-        resultadoDiv.textContent = "FINAL G — SEM SOLUÇÃO: as evidências reunidas não sustentam essa acusação. O caso permanece oficialmente sem solução.";
+        texto = "FINAL G — SEM SOLUÇÃO: as evidências reunidas não sustentam essa acusação. O caso permanece oficialmente sem solução.";
       }
+
+      document.getElementById("resultado-final").textContent = texto;
+      document.getElementById("tela-investigacao").style.display = "none";
+      document.getElementById("tela-resultado").style.display = "block";
     }
 
     renderizarSuspeitos();
