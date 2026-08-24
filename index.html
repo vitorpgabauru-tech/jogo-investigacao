@@ -12,13 +12,14 @@
   <h2>Suspeitos</h2>
   <ul id="lista-suspeitos"></ul>
 
-  <h2>Testemunhas</h2>
-  <ul id="lista-testemunhas"></ul>
-
-  <h2>Evidências</h2>
+  <h2>Investigação</h2>
   <p id="contador"></p>
-  <button onclick="investigar()">Investigar</button>
-  <ul id="lista-evidencias"></ul>
+
+  <h3>Pistas disponíveis</h3>
+  <ul id="lista-disponiveis"></ul>
+
+  <h3>Pistas descobertas</h3>
+  <ul id="lista-descobertas"></ul>
 
   <h2>Sua hipótese</h2>
   <select id="select-acusado"></select>
@@ -36,68 +37,158 @@
 
     const opcoesStatus = ["Não decidido", "Suspeito", "Não suspeito"];
 
-    const listaSuspeitos = document.getElementById("lista-suspeitos");
     for (const suspeito of suspeitos) {
       suspeito.status = "Não decidido";
+    }
 
-      const item = document.createElement("li");
-
-      const texto = document.createElement("span");
-      texto.textContent = suspeito.nome + " — " + suspeito.motivo + "  ";
-      item.appendChild(texto);
-
-      const select = document.createElement("select");
-      for (const opcao of opcoesStatus) {
-        const option = document.createElement("option");
-        option.value = opcao;
-        option.textContent = opcao;
-        select.appendChild(option);
+    function motivoVisivel(suspeito) {
+      if (suspeito.revelaMotivoPista === null) {
+        return true;
       }
-
-      select.onchange = function () {
-        suspeito.status = select.value;
-      };
-
-      item.appendChild(select);
-      listaSuspeitos.appendChild(item);
+      const pista = pistas.find(function (p) { return p.id === suspeito.revelaMotivoPista; });
+      return pista ? pista.descoberta : false;
     }
 
-    const listaTestemunhas = document.getElementById("lista-testemunhas");
-    for (const testemunha of testemunhas) {
-      const item = document.createElement("li");
-      item.textContent = testemunha.nome + " (" + testemunha.papel + ") — " + testemunha.relato;
-      listaTestemunhas.appendChild(item);
+    function pistaDisponivel(pista) {
+      if (pista.descoberta) {
+        return false;
+      }
+      return pista.requer.every(function (idRequerido) {
+        const requerida = pistas.find(function (p) { return p.id === idRequerido; });
+        return requerida && requerida.descoberta;
+      });
     }
 
-    function renderizarEvidencias() {
-      const listaEvidencias = document.getElementById("lista-evidencias");
-      listaEvidencias.innerHTML = "";
+    function calcularDisponiveisAtuais() {
+      return pistas.filter(pistaDisponivel).map(function (p) { return p.id; });
+    }
 
-      for (const evidencia of evidencias) {
-        if (evidencia.descoberta) {
+    function calcularMotivosVisiveisAtuais() {
+      return suspeitos.filter(motivoVisivel).map(function (s) { return s.nome; });
+    }
+
+    let pistasConhecidas = calcularDisponiveisAtuais();
+    let pistasNaoVistas = [];
+    let suspeitosConhecidos = calcularMotivosVisiveisAtuais();
+    let suspeitosNaoVistos = [];
+
+    function atualizarNaoVistos() {
+      for (const pista of pistas) {
+        if (pistaDisponivel(pista) && pistasConhecidas.indexOf(pista.id) === -1) {
+          pistasConhecidas.push(pista.id);
+          pistasNaoVistas.push(pista.id);
+        }
+      }
+      for (const suspeito of suspeitos) {
+        if (motivoVisivel(suspeito) && suspeitosConhecidos.indexOf(suspeito.nome) === -1) {
+          suspeitosConhecidos.push(suspeito.nome);
+          suspeitosNaoVistos.push(suspeito.nome);
+        }
+      }
+    }
+
+    function renderizarSuspeitos() {
+      const listaSuspeitos = document.getElementById("lista-suspeitos");
+      listaSuspeitos.innerHTML = "";
+
+      for (const suspeito of suspeitos) {
+        const item = document.createElement("li");
+
+        const texto = document.createElement("span");
+        let prefixo = "";
+        if (suspeitosNaoVistos.indexOf(suspeito.nome) !== -1) {
+          prefixo = "💡 ";
+        }
+        if (motivoVisivel(suspeito)) {
+          texto.textContent = prefixo + suspeito.nome + " — " + suspeito.motivo + "  ";
+        } else {
+          texto.textContent = suspeito.nome + " — motivo ainda desconhecido  ";
+        }
+        item.appendChild(texto);
+
+        const select = document.createElement("select");
+        for (const opcao of opcoesStatus) {
+          const option = document.createElement("option");
+          option.value = opcao;
+          option.textContent = opcao;
+          select.appendChild(option);
+        }
+        select.value = suspeito.status;
+
+        select.onchange = function () {
+          suspeito.status = select.value;
+          const i = suspeitosNaoVistos.indexOf(suspeito.nome);
+          if (i !== -1) {
+            suspeitosNaoVistos.splice(i, 1);
+          }
+          renderizarSuspeitos();
+        };
+
+        item.appendChild(select);
+        listaSuspeitos.appendChild(item);
+      }
+    }
+
+    function renderizarPistas(idRecemDescoberta) {
+      const disponiveisDiv = document.getElementById("lista-disponiveis");
+      disponiveisDiv.innerHTML = "";
+
+      for (const pista of pistas) {
+        if (pistaDisponivel(pista)) {
           const item = document.createElement("li");
-          item.textContent = "[" + evidencia.tipo + "] " + evidencia.descricao + " — " + evidencia.forca;
-          listaEvidencias.appendChild(item);
+          let prefixo = "";
+          if (pistasNaoVistas.indexOf(pista.id) !== -1) {
+            prefixo = "💡 ";
+          }
+          item.textContent = prefixo + "[" + pista.tipo + "] " + pista.nome + " ";
+
+          const botao = document.createElement("button");
+          botao.textContent = "Investigar";
+          botao.onclick = function () {
+            investigarPista(pista);
+          };
+
+          item.appendChild(botao);
+          disponiveisDiv.appendChild(item);
         }
       }
 
-      let descobertas = 0;
-      for (const evidencia of evidencias) {
-        if (evidencia.descoberta) {
-          descobertas = descobertas + 1;
+      const descobertasDiv = document.getElementById("lista-descobertas");
+      descobertasDiv.innerHTML = "";
+      let contador = 0;
+
+      for (const pista of pistas) {
+        if (pista.descoberta) {
+          contador = contador + 1;
+          const item = document.createElement("li");
+          let prefixo = "";
+          if (pista.id === idRecemDescoberta) {
+            prefixo = "💡 ";
+          }
+          let texto = prefixo + "[" + pista.tipo + "] " + pista.nome + " — " + pista.conteudo;
+          if (pista.forca) {
+            texto = texto + " (" + pista.forca + ")";
+          }
+          item.textContent = texto;
+          descobertasDiv.appendChild(item);
         }
       }
-      document.getElementById("contador").textContent = descobertas + " de " + evidencias.length + " evidências descobertas";
+
+      document.getElementById("contador").textContent = contador + " de " + pistas.length + " pistas descobertas";
     }
 
-    function investigar() {
-      for (const evidencia of evidencias) {
-        if (!evidencia.descoberta) {
-          evidencia.descoberta = true;
-          break;
-        }
+    function investigarPista(pista) {
+      pista.descoberta = true;
+
+      const idx = pistasNaoVistas.indexOf(pista.id);
+      if (idx !== -1) {
+        pistasNaoVistas.splice(idx, 1);
       }
-      renderizarEvidencias();
+
+      atualizarNaoVistos();
+
+      renderizarPistas(pista.id);
+      renderizarSuspeitos();
     }
 
     const selectAcusado = document.getElementById("select-acusado");
@@ -121,7 +212,8 @@
       }
     }
 
-    renderizarEvidencias();
+    renderizarSuspeitos();
+    renderizarPistas();
   </script>
 </body>
 </html>
